@@ -23,8 +23,8 @@
 
 import { FileApi } from '../../../app/Api/FileApi'
 import { ImporterApi } from '../../../app/Api/ImporterApi'
-import { DataBuilderApi } from '@railken/quartz/data-builder/src/app/Api/ImporterApi'
-import Action from '@/modules/data-builder/components/Resource/action'
+import { DataBuilderApi } from '@railken/quartz/data-builder/src/app/Api/DataBuilderApi'
+import Action from '@railken/quartz/data-builder/src/components/data-builder/Resource/action'
 
 export default {
   extends: Action,
@@ -64,8 +64,6 @@ export default {
 
 
       const formData = new FormData();
-
-      console.log(this.target);
 
       formData.append("file", this.target, this.target.name)
 

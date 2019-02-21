@@ -8,7 +8,7 @@ export class ImporterServiceProvider extends ServiceProvider {
 
     this.addData({
       name: 'importer',
-      icon: require('../../assets/impoter-icon.svg'),
+      icon: require('../../assets/importer-icon.svg'),
       tags: ['data'],
       route: { name: 'importers.index' },
     })
