@@ -1,0 +1,16 @@
+{
+  "$quartz": {
+    "data": {
+      "importer": {
+        "name": "Importer",
+        "description": "Importer",
+        "attributes": {
+          "name": {
+            "label": "name",
+            "description": "Identify the record by a human-readable string"
+          }
+        }
+      }
+    }
+  }  
+}
