@@ -1,18 +1,23 @@
 <template>
-  <q-page-index v-bind="$attrs">
+  <q-page-show v-bind="$attrs">
     <template slot='body' slot-scope="scope">
-       <index v-bind="$attrs"/>
+      <show :resource="scope.resource" v-bind="$attrs"/>
     </template>
-  </q-page-index>
+    <template slot='actions' slot-scope="scope">
+      <edit :resource="scope.resource" v-bind="$attrs"/>
+    </template>
+  </q-page-show>
 </template>
 
 <script>
 
-import Index from '../Resource/index'
+import Show from '../Resource/show'
+import Edit from '../Resource/edit'
 
 export default {
   components: {
-    Index
+    Show,
+    Edit
   }
 }
 </script>
