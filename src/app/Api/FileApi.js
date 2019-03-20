@@ -13,6 +13,6 @@ export class FileApi extends ResourceApi {
    * @return {Promise}
    */
   upload (id, params) {
-    return Vue.http.post(this.getFullUrl() + "/" + id + "/upload", params, { headers: { Authorization: 'Bearer ' + this.access_token }}).then(this.parse)
+    return Vue.http.post(this.getFullUrl() + "/" + id + "/upload", params, { headers: { Authorization: 'Bearer ' + this.access_token }}).then((response) => { return this.parse(response) });
   }
 };
