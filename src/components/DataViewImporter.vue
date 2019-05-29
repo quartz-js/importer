@@ -1,7 +1,9 @@
 <template>
-  <div class="c" v-if="executor && executor.data_builder">
+  <div class="c" v-if="resource && resource.data_builder">
     <v-dialog v-model="showDialog" width="500">
-      <v-btn color="primary" flat icon @click="showDialog = true" slot="activator"><v-icon>adjust</v-icon></v-btn>
+      <slot name='activator' slot="activator">
+        <v-btn color="primary" flat icon class='ma-0 mx-1' small><v-icon size=19>fas fa-upload</v-icon></v-btn>
+      </slot>
       <v-card>
         <v-card-title class="headline grey lighten-2" primary-title>{{ $t('execute.title')}}</v-card-title>
         <v-card-text>
@@ -12,7 +14,7 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn primary v-if="file" @click="generate(executor, report.form)">{{ $t('execute.action') }}</v-btn>
+          <v-btn primary v-if="file" @click="generate(resource)">{{ $t('execute.action') }}</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -21,13 +23,13 @@
 </template>
 <script>
 
-import { FileApi } from '../../../app/Api/FileApi'
-import { ImporterApi } from '../../../app/Api/ImporterApi'
-import { DataBuilderApi } from '@railken/quartz/data-builder/src/app/Api/DataBuilderApi'
-import Action from '@railken/quartz/data-builder/src/components/data-builder/Resource/action'
+import { DataResolver } from '@railken/quartz/data-view/src/app/Services/DataResolver'
+import { FileApi } from '@railken/quartz/file/src/app/Api/FileApi'
 
 export default {
-  extends: Action,
+  props: [
+    'resource'
+  ],
   data () {
     return {
       showDialog: false,
@@ -55,35 +57,37 @@ export default {
 
       reader.readAsText(event.target.files[0])
     },
-    generate (importer, data) {
+    generate (importer) {
       var self = this
+      let dataResolver = new DataResolver();
 
-      var api = new ImporterApi()
+      var api = dataResolver.newApiByName("importer");
+      var fileApi = new FileApi();
 
       var header = this.type === 'csv' ?  'text/csv' : 'application/vnd.ms-excel';
-
 
       const formData = new FormData();
 
       formData.append("file", this.target, this.target.name)
 
-      var fileApi = new FileApi()
       fileApi.create().then((response) => {
-        return fileApi.upload(response.body.data.id, formData);
+        return fileApi.upload(response.body.data.id, formData, (progress) => {
+          console.log(progress);
+        });
       }).then(response => {
-        return api.import(importer.id, { type: this.type, file_id: response.body.data.id })
+        return api.post('/' + importer.id + '/execute', { type: this.type, file_id: response.body.data.id })
       }).then(response => {
-        this.showDialog = false;
-        self.$notify({
-          'group': 'system',
-          'type': 'info',
-          'text': 'Your request has been sent.',
-          'title': 'Information',
-          'duration': 2000
-        })
-
+        window.bus.$emit("message", {
+          message: "Your request has been sent",
+          type: "info"
+        });
       }).catch(response => {
-        console.log(response)
+        window.bus.$emit("message", {
+          message: response.body.errors[0].message,
+          type: "error"
+        });
+      }).finally(response => {
+        this.showDialog = false;
       })
     }
 
