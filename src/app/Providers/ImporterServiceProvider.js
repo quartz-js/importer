@@ -1,4 +1,4 @@
-import { ServiceProvider } from '@railken/quartz-core'
+import { ServiceProvider } from '@quartz/core'
 
 export class ImporterServiceProvider extends ServiceProvider {
   register() {
