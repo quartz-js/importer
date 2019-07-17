@@ -23,8 +23,8 @@
 </template>
 <script>
 
-import { DataResolver } from '@railken/quartz/data-view/src/app/Services/DataResolver'
-import { FileApi } from '@railken/quartz/file/src/app/Api/FileApi'
+import { DataResolver } from '@quartz/data-view/src/app/Services/DataResolver'
+import { FileApi } from '@quartz/file/src/app/Api/FileApi'
 
 export default {
   props: [
