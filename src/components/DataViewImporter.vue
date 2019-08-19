@@ -1,10 +1,10 @@
 <template>
   <div class="c" v-if="resource && resource.data_builder">
     <v-dialog v-model="showDialog" width="500">
-      <slot name='activator' slot="activator">
-        <v-btn color="primary" flat icon class='ma-0 mx-1' small><v-icon size=19>fas fa-upload</v-icon></v-btn>
-      </slot>
-      <v-card>
+      <template v-slot:activator="{ on }">
+        <v-btn v-on="on" color="primary" flat icon class='ma-0 mx-1' small><v-icon size=19>fas fa-upload</v-icon></v-btn>
+      </template>
+      <q-card>
         <v-card-title class="headline grey lighten-2" primary-title>{{ $t('execute.title')}}</v-card-title>
         <v-card-text>
           <v-text-field label="Select File" @click='pickFile' v-model="fileName" prepend-icon='attach_file'></v-text-field>
@@ -16,7 +16,7 @@
           <v-spacer></v-spacer>
           <v-btn primary v-if="file" @click="generate(resource)">{{ $t('execute.action') }}</v-btn>
         </v-card-actions>
-      </v-card>
+      </q-card>
     </v-dialog>
   </div>
 
