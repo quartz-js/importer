@@ -2,7 +2,7 @@
   <div class="c" v-if="resource && resource.data_builder">
     <v-dialog v-model="showDialog" width="500">
       <template v-slot:activator="{ on }">
-        <v-btn v-on="on" color="primary" flat icon class='ma-0 mx-1' small><v-icon size=19>fas fa-upload</v-icon></v-btn>
+        <v-btn v-on="on" color="primary" flat icon class='ma-0 mx-1' small><q-icon size=19>fas fa-upload</q-icon></v-btn>
       </template>
       <q-card>
         <v-card-title class="headline grey lighten-2" primary-title>{{ $t('execute.title')}}</v-card-title>
